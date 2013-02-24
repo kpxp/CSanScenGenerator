@@ -25,6 +25,7 @@ public class InfluenceKindRate {
     private boolean buildingRateInverse;
     private double paramMin;
     private double paramMax;
+    private double costExponent;
     private boolean integralParam;
     private List<Integer> conditionKind;
     private double conditionParam;
@@ -53,30 +54,31 @@ public class InfluenceKindRate {
                 r.baseValueInverse = s[5].equals("1") ? true : false;
                 r.noParam = s[5].equals("2") ? true : false;
                 r.unusable = s[5].equals("3") ? true : false;
-                r.buildingRate = Double.parseDouble(s[6]);
-                r.buildingRateInverse = s[7].equals("1") ? true: false;
+                r.costExponent = Double.parseDouble(s[6]);
+                r.buildingRate = Double.parseDouble(s[7]);
+                r.buildingRateInverse = s[8].equals("1") ? true: false;
                 try {
-                    r.paramMin = Integer.parseInt(s[8]);
-                    r.paramMax = Integer.parseInt(s[9]);
+                    r.paramMin = Integer.parseInt(s[9]);
+                    r.paramMax = Integer.parseInt(s[10]);
                     r.integralParam = true;
                 } catch (NumberFormatException ex){
-                    r.paramMin = Double.parseDouble(s[8]);
-                    r.paramMax = Double.parseDouble(s[9]);
+                    r.paramMin = Double.parseDouble(s[9]);
+                    r.paramMax = Double.parseDouble(s[10]);
                     r.integralParam = false;
                 }
                 
                 for (int i = 0; i < TypedOfficer.NUMBER_OF_TYPES; ++i) {
-                    r.titleRate[i] = Integer.parseInt(s[i + 10]);
+                    r.titleRate[i] = Integer.parseInt(s[i + 11]);
                 }
-                r.isBattle = s[TypedOfficer.NUMBER_OF_TYPES + 10].equals("1") ? true : false;
-                r.leaderProb = Double.parseDouble(s[TypedOfficer.NUMBER_OF_TYPES + 11]);
-                String condKindStr = s[TypedOfficer.NUMBER_OF_TYPES + 12];
+                r.isBattle = s[TypedOfficer.NUMBER_OF_TYPES + 11].equals("1") ? true : false;
+                r.leaderProb = Double.parseDouble(s[TypedOfficer.NUMBER_OF_TYPES + 12]);
+                String condKindStr = s[TypedOfficer.NUMBER_OF_TYPES + 13];
                 String[] cksp = condKindStr.split(",");
                 r.conditionKind = new ArrayList<Integer>();
                 for (String i : cksp){
                     r.conditionKind.add(Integer.parseInt(i));
                 }
-                r.description = s[TypedOfficer.NUMBER_OF_TYPES + 13];
+                r.description = s[TypedOfficer.NUMBER_OF_TYPES + 14];
                 influences.put(r.id, r);
             }
             f.close();
@@ -151,14 +153,14 @@ public class InfluenceKindRate {
                 r.actualValue = (int) k.baseValue;
             } else {
                 if (k.baseValueInverse){
-                    r.actualValue = (int) Math.round(k.baseValue / param);
+                    r.actualValue = (int) Math.round(k.baseValue / Math.pow(param, k.costExponent));
                 } else {
-                    r.actualValue = (int) Math.round(k.baseValue * param);
+                    r.actualValue = (int) Math.round(k.baseValue * Math.pow(param, k.costExponent));
                 }
                 if (k.buildingRateInverse){
-                    r.buildingRate = (int) Math.round(k.buildingRate / param);
+                    r.buildingRate = (int) Math.round(k.buildingRate / Math.pow(param, k.costExponent));
                 } else {
-                    r.buildingRate = (int) Math.round(k.buildingRate / param);
+                    r.buildingRate = (int) Math.round(k.buildingRate / Math.pow(param, k.costExponent));
                 }
             }
             
