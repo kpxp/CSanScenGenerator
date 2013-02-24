@@ -386,6 +386,14 @@ public class Frontend extends javax.swing.JFrame {
         strongOfficerIdealTendencyCheckbox = new javax.swing.JCheckBox();
         strongKingAmbitionCheckbox = new javax.swing.JCheckBox();
         strongOfficerLoyaltyCheckbox = new javax.swing.JCheckBox();
+        jPanel31 = new javax.swing.JPanel();
+        strongOfficerGeneratedTitleLevelHiText = new javax.swing.JTextField();
+        jLabel180 = new javax.swing.JLabel();
+        strongOfficerGeneratedTitleLevelLoText = new javax.swing.JTextField();
+        jLabel181 = new javax.swing.JLabel();
+        strongOfficerGeneratedTitleProbSlider = new javax.swing.JSlider();
+        strongOfficerGeneratedTitleProbLabel = new javax.swing.JLabel();
+        jLabel182 = new javax.swing.JLabel();
         jLabel132 = new javax.swing.JLabel();
         strongFactionMinOfficerText = new javax.swing.JTextField();
         jLabel133 = new javax.swing.JLabel();
@@ -1759,6 +1767,7 @@ public class Frontend extends javax.swing.JFrame {
         jPanel26.add(jLabel165, gridBagConstraints);
 
         jLabel179.setText("稱號可習得機率");
+        jLabel179.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -1768,7 +1777,8 @@ public class Frontend extends javax.swing.JFrame {
         generatedTitleLearnableRateSlider.setMajorTickSpacing(10);
         generatedTitleLearnableRateSlider.setMinorTickSpacing(1);
         generatedTitleLearnableRateSlider.setToolTipText("");
-        generatedTitleLearnableRateSlider.setValue(30);
+        generatedTitleLearnableRateSlider.setValue(0);
+        generatedTitleLearnableRateSlider.setEnabled(false);
         generatedTitleLearnableRateSlider.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 generatedTitleLearnableRateSliderStateChanged(evt);
@@ -1782,7 +1792,8 @@ public class Frontend extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
         jPanel26.add(generatedTitleLearnableRateSlider, gridBagConstraints);
 
-        generatedTitleLearnableRateLabel.setText("30%");
+        generatedTitleLearnableRateLabel.setText("0%");
+        generatedTitleLearnableRateLabel.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 1;
@@ -2692,7 +2703,7 @@ public class Frontend extends javax.swing.JFrame {
         jLabel129.setText("能力 = 原能力 x ");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
         jPanel20.add(jLabel129, gridBagConstraints);
@@ -2701,7 +2712,7 @@ public class Frontend extends javax.swing.JFrame {
         strongOfficerAbilityMulText.setToolTipText("把強力武將的能力再乘上這個數字");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 60;
         gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
@@ -2710,7 +2721,7 @@ public class Frontend extends javax.swing.JFrame {
         jLabel130.setText("+");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
         jPanel20.add(jLabel130, gridBagConstraints);
 
@@ -2718,7 +2729,7 @@ public class Frontend extends javax.swing.JFrame {
         strongOfficerAbilityAbsText.setToolTipText("把強力武將的能力再加上這個數字");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 60;
         gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
@@ -2793,14 +2804,14 @@ public class Frontend extends javax.swing.JFrame {
         jLabel139.setText("x  10");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
         jPanel20.add(jLabel139, gridBagConstraints);
 
         strongOfficerPopularityHiText.setText("400");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
         jPanel20.add(strongOfficerPopularityHiText, gridBagConstraints);
@@ -2808,14 +2819,14 @@ public class Frontend extends javax.swing.JFrame {
         jLabel140.setText("至");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
         jPanel20.add(jLabel140, gridBagConstraints);
 
         strongOfficerPopularityLoText.setText("0");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
         jPanel20.add(strongOfficerPopularityLoText, gridBagConstraints);
@@ -2823,7 +2834,7 @@ public class Frontend extends javax.swing.JFrame {
         jLabel141.setText("名聲");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
         jPanel20.add(jLabel141, gridBagConstraints);
@@ -2832,7 +2843,7 @@ public class Frontend extends javax.swing.JFrame {
         strongOfficerIdealTendencyCheckbox.setToolTipText("令強力武將非常在意相性，令其較難被其他勢力所登庸");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
@@ -2842,7 +2853,7 @@ public class Frontend extends javax.swing.JFrame {
         strongKingAmbitionCheckbox.setToolTipText("強力勢力的君主的野心設置為最大");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 9;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
@@ -2852,16 +2863,90 @@ public class Frontend extends javax.swing.JFrame {
         strongOfficerLoyaltyCheckbox.setToolTipText("把強力武將的忠誠設置得很高，令其較難被其他勢力所登庸");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
         jPanel20.add(strongOfficerLoyaltyCheckbox, gridBagConstraints);
 
+        jPanel31.setBorder(javax.swing.BorderFactory.createTitledBorder("生成稱號"));
+        jPanel31.setLayout(new java.awt.GridBagLayout());
+
+        strongOfficerGeneratedTitleLevelHiText.setText("5");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.ipadx = 60;
+        gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
+        jPanel31.add(strongOfficerGeneratedTitleLevelHiText, gridBagConstraints);
+
+        jLabel180.setText("至");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
+        jPanel31.add(jLabel180, gridBagConstraints);
+
+        strongOfficerGeneratedTitleLevelLoText.setText("1");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.ipadx = 60;
+        gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
+        jPanel31.add(strongOfficerGeneratedTitleLevelLoText, gridBagConstraints);
+
+        jLabel181.setText("生成稱號等級");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
+        jPanel31.add(jLabel181, gridBagConstraints);
+
+        strongOfficerGeneratedTitleProbSlider.setMajorTickSpacing(10);
+        strongOfficerGeneratedTitleProbSlider.setMinorTickSpacing(1);
+        strongOfficerGeneratedTitleProbSlider.setToolTipText("");
+        strongOfficerGeneratedTitleProbSlider.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                strongOfficerGeneratedTitleProbSliderStateChanged(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
+        jPanel31.add(strongOfficerGeneratedTitleProbSlider, gridBagConstraints);
+
+        strongOfficerGeneratedTitleProbLabel.setText("50%");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
+        jPanel31.add(strongOfficerGeneratedTitleProbLabel, gridBagConstraints);
+
+        jLabel182.setText("獲得生成稱號機率");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
+        jPanel31.add(jLabel182, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
+        jPanel20.add(jPanel31, gridBagConstraints);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 5;
+        gridBagConstraints.gridheight = 7;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_START;
         gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
         jPanel18.add(jPanel20, gridBagConstraints);
@@ -4500,16 +4585,32 @@ public class Frontend extends javax.swing.JFrame {
         o.randomPersonalTitles(noSpecialProb);
         o.randomBattleTitles(noSpecialProb);
         
-        if (Utility.probTestPercentage(generatedTitleProbSlider.getValue())){
-            o.createUniquePersonalTitle(Integer.parseInt(generatedTitleLevelLoText.getText()), Integer.parseInt(generatedTitleLevelHiText.getText()), generatedTitleLearnableRateSlider.getValue()); 
+        if (strong){
+            if (Utility.probTestPercentage(strongOfficerGeneratedTitleProbSlider.getValue())){
+                o.createUniquePersonalTitle(Integer.parseInt(strongOfficerGeneratedTitleLevelLoText.getText()), Integer.parseInt(strongOfficerGeneratedTitleLevelHiText.getText()), generatedTitleLearnableRateSlider.getValue()); 
+            } else {
+                o.randomPersonalTitles(noSpecialProb);
+            }
         } else {
-            o.randomPersonalTitles(noSpecialProb);
+            if (Utility.probTestPercentage(generatedTitleProbSlider.getValue())){
+                o.createUniquePersonalTitle(Integer.parseInt(generatedTitleLevelLoText.getText()), Integer.parseInt(generatedTitleLevelHiText.getText()), generatedTitleLearnableRateSlider.getValue()); 
+            } else {
+                o.randomPersonalTitles(noSpecialProb);
+            }
         }
         
-        if (Utility.probTestPercentage(generatedTitleProbSlider.getValue())){
-            o.createUniqueBattleTitle(Integer.parseInt(generatedTitleLevelLoText.getText()), Integer.parseInt(generatedTitleLevelHiText.getText()), generatedTitleLearnableRateSlider.getValue());
+        if (strong) {
+            if (Utility.probTestPercentage(strongOfficerGeneratedTitleProbSlider.getValue())){
+                o.createUniqueBattleTitle(Integer.parseInt(strongOfficerGeneratedTitleLevelLoText.getText()), Integer.parseInt(strongOfficerGeneratedTitleLevelHiText.getText()), generatedTitleLearnableRateSlider.getValue());
+            } else {
+                o.randomBattleTitles(noSpecialProb);
+            }
         } else {
-            o.randomBattleTitles(noSpecialProb);
+            if (Utility.probTestPercentage(generatedTitleProbSlider.getValue())){
+                o.createUniqueBattleTitle(Integer.parseInt(generatedTitleLevelLoText.getText()), Integer.parseInt(generatedTitleLevelHiText.getText()), generatedTitleLearnableRateSlider.getValue());
+            } else {
+                o.randomBattleTitles(noSpecialProb);
+            }
         }
         
         o.randomStunts(strong ? Double.parseDouble(strongOfficerStuntProbText.getText()) : Double.parseDouble(stuntProbText.getText()),
@@ -5146,6 +5247,10 @@ public class Frontend extends javax.swing.JFrame {
         generatedTitleLearnableRateLabel.setText(generatedTitleLearnableRateSlider.getValue() + "%");
     }//GEN-LAST:event_generatedTitleLearnableRateSliderStateChanged
 
+    private void strongOfficerGeneratedTitleProbSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_strongOfficerGeneratedTitleProbSliderStateChanged
+        strongOfficerGeneratedTitleProbLabel.setText(strongOfficerGeneratedTitleProbSlider.getValue() + "%");
+    }//GEN-LAST:event_strongOfficerGeneratedTitleProbSliderStateChanged
+
     /**
      * @param args the command line arguments
      */
@@ -5361,6 +5466,9 @@ public class Frontend extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel178;
     private javax.swing.JLabel jLabel179;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel180;
+    private javax.swing.JLabel jLabel181;
+    private javax.swing.JLabel jLabel182;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
@@ -5474,6 +5582,7 @@ public class Frontend extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel29;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel30;
+    private javax.swing.JPanel jPanel31;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
@@ -5578,6 +5687,10 @@ public class Frontend extends javax.swing.JFrame {
     private javax.swing.JCheckBox strongKingAmbitionCheckbox;
     private javax.swing.JTextField strongOfficerAbilityAbsText;
     private javax.swing.JTextField strongOfficerAbilityMulText;
+    private javax.swing.JTextField strongOfficerGeneratedTitleLevelHiText;
+    private javax.swing.JTextField strongOfficerGeneratedTitleLevelLoText;
+    private javax.swing.JLabel strongOfficerGeneratedTitleProbLabel;
+    private javax.swing.JSlider strongOfficerGeneratedTitleProbSlider;
     private javax.swing.JCheckBox strongOfficerIdealTendencyCheckbox;
     private javax.swing.JCheckBox strongOfficerLoyaltyCheckbox;
     private javax.swing.JTextField strongOfficerPopularityHiText;

@@ -438,8 +438,8 @@ public class TypedOfficer extends Officer {
     }
     
     @Override
-    public void createUniquePersonalTitle(int mean, int var, double learnableRate) throws IOException, SQLException{
-        createPersonalTitle((int) Utility.randGaussian(mean, var), type, learnableRate);
+    public void createUniquePersonalTitle(int lo, int hi, double learnableRate) throws IOException, SQLException{
+        createPersonalTitle((int) Utility.randGaussian((lo + hi) / 2.0, hi - lo), type, learnableRate);
     }
     
     public void createPersonalTitle(int level, int officerType, double learnableRate) throws IOException, SQLException{
@@ -504,8 +504,8 @@ public class TypedOfficer extends Officer {
     }
     
     @Override
-    public void createUniqueBattleTitle(int mean, int var, double learnableRate) throws IOException, SQLException{
-        createBattleTitle((int) Utility.randGaussian(mean, var), type, learnableRate);
+    public void createUniqueBattleTitle(int lo, int hi, double learnableRate) throws IOException, SQLException{
+        createBattleTitle((int) Utility.randGaussian((lo + hi) / 2.0, hi - lo), type, learnableRate);
     }
     
     public void createBattleTitle(int level, int officerType, double learnableRate) throws IOException, SQLException{
