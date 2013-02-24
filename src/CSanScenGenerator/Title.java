@@ -132,7 +132,8 @@ public class Title {
             Map<Integer, Integer> influencesProb = InfluenceRate.getTitleRates(commonData, type, battle);
             int influence = Utility.randomCategorize(influencesProb);
             int actualValue = InfluenceRate.getActualValue(commonData, influence);
-            boolean leaderOnly = battle && Utility.probTestPercentage(InfluenceRate.getLeaderProb(commonData, influence));
+            boolean leaderOnly = battle && Utility.probTestPercentage(InfluenceRate.getLeaderProb(commonData, influence)) 
+                    && InfluenceRate.isBattle(commonData, influence);
             if (actualValue <= remainValue && (leaderOnly || actualValue * 1.5 <= remainValue) && !influences.contains(influence)) {
                 remainValue -= actualValue;
                 if (leaderOnly){
