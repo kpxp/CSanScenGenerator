@@ -52,6 +52,7 @@ public class GameMap {
         }
     }
     
+    private static int terrainIteration = 0;
     public static GameMap createMap(int sizeX, int sizeY, Terrain start, List<MapSetting> setting) {
         GameMap m = new GameMap();
         m.dimensionX = sizeX;
@@ -69,6 +70,7 @@ public class GameMap {
             m.placeMass(i.terrain, start, Utility.randBetween(i.pieceLo, i.pieceHi),
                     Utility.randBetween(i.sizeLo, i.sizeHi),
                     i.thinnessLo, i.thinnessHi);
+            terrainIteration++;
         }
 
         return m;
@@ -107,8 +109,9 @@ public class GameMap {
                         break;
                 }
                 if (newPoint.x >= 0 && newPoint.x < dimensionX && newPoint.y >= 0 && newPoint.y < dimensionY) {
-                    if (mapData[newPoint.x][newPoint.y] != terrain && (Utility.probTestPercentage(12.5) || mapData[newPoint.x][newPoint.y] == baseTerrain))
-                    mapData[newPoint.x][newPoint.y] = terrain;
+                    if (mapData[newPoint.x][newPoint.y] != terrain && (Utility.probTestPercentage(terrainIteration * 12.5) || mapData[newPoint.x][newPoint.y] == baseTerrain 
+                                || terrain == Terrain.WATER || terrain == Terrain.MOUNTAIN))
+                        mapData[newPoint.x][newPoint.y] = terrain;
                 }
                 points.add(newPoint);
             }
