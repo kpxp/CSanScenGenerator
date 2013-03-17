@@ -13,6 +13,7 @@ import java.util.*;
 import javax.swing.UnsupportedLookAndFeelException;
 import CSanScenGenerator.*;
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
@@ -4977,7 +4978,15 @@ public class Frontend extends javax.swing.JFrame {
         Connection scenConn = null;
         Connection commonDataConn = null;
         tc = langCombo.getSelectedIndex() == 0;
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar cal = Calendar.getInstance();
+ 
+        final String now = sdf.format(cal.getTime());
+        
         try {
+            Utility.copyFile(gamePath + "/GameData/Scenario/generatedScen.mdb", gamePath + "/GameData/Scenario/generatedScen_" + now + ".mdb");
+            Utility.copyFile(gamePath + "/GameData/Common/CommonData.mdb", gamePath + "/GameData/ScenarioCommon/CommonData_" + now + ".mdb");
             Utility.copyFile("ScenGenTemplate.mdb", gamePath + "/GameData/Scenario/generatedScen.mdb");
             try {
                 Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
