@@ -234,6 +234,27 @@ public class Officer {
     public int getAbilitySum() {
         return leadership + might + intelligence + politics + glamour;
     }
+    
+    public int getMerit() throws SQLException {
+        int personalTitleLevel = 0;
+        if (this.personalTitle >= 0){
+            personalTitleLevel = Title.getPersonalTitles(commonData).get(this.personalTitle).getLevel();
+        }
+        
+        int battleTitleLevel = 0;
+        if (this.battleTitle >= 0){
+            battleTitleLevel = Title.getPersonalTitles(commonData).get(this.battleTitle).getLevel();
+        }
+        
+        int allSkillMerit = 0;
+        for (int i : this.skill) {
+            Skill s = Skill.getSkills(commonData).get(i);
+            allSkillMerit += 5 * s.getLevel();
+        }
+        
+        return (this.might + this.leadership + this.intelligence + this.politics + this.glamour) * 
+                (100 + personalTitleLevel + battleTitleLevel + allSkillMerit);
+    }
 
     public int getAbilityMin() {
         return Collections.min(Arrays.asList(leadership, might, intelligence, politics, glamour));

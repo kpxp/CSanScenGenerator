@@ -180,7 +180,8 @@ public class Frontend extends javax.swing.JFrame {
         jLabel54 = new javax.swing.JLabel();
         jLabel38 = new javax.swing.JLabel();
         randomKingRadio = new javax.swing.JRadioButton();
-        bestKingRadio = new javax.swing.JRadioButton();
+        bestAbilityKingRadio = new javax.swing.JRadioButton();
+        bestMeritKingRadio = new javax.swing.JRadioButton();
         useScenOfficerCheckbox = new javax.swing.JCheckBox();
         jPanel4 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
@@ -1185,15 +1186,23 @@ public class Frontend extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
         jPanel8.add(randomKingRadio, gridBagConstraints);
 
-        factionKingGroup.add(bestKingRadio);
-        bestKingRadio.setText("五圍最高者");
+        factionKingGroup.add(bestAbilityKingRadio);
+        bestAbilityKingRadio.setText("五圍最高者");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 2;
+        jPanel8.add(bestAbilityKingRadio, gridBagConstraints);
+
+        factionKingGroup.add(bestMeritKingRadio);
+        bestMeritKingRadio.setText("能力最高者");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
-        jPanel8.add(bestKingRadio, gridBagConstraints);
+        jPanel8.add(bestMeritKingRadio, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -4779,14 +4788,27 @@ public class Frontend extends javax.swing.JFrame {
             if (kingCandidates.isEmpty()) {
                 f.setKing(Utility.randomPick(officers));
             } else {
-                f.setKing(randomKingRadio.isSelected() ? Utility.randomPick(kingCandidates)
-                        : Collections.max(kingCandidates, new Comparator<Officer>() {
-
-                    @Override
-                    public int compare(Officer o1, Officer o2) {
-                        return o1.getAbilitySum() - o2.getAbilitySum();
-                    }
-                }));
+                if (randomKingRadio.isSelected()){
+                    f.setKing(Utility.randomPick(kingCandidates));
+                } else if (bestAbilityKingRadio.isSelected()) {
+                    f.setKing(Collections.max(kingCandidates, new Comparator<Officer>() {
+                        @Override
+                        public int compare(Officer o1, Officer o2) {
+                            return o1.getAbilitySum() - o2.getAbilitySum();
+                        }
+                    }));
+                } else {
+                    f.setKing(Collections.max(kingCandidates, new Comparator<Officer>() {
+                        @Override
+                        public int compare(Officer o1, Officer o2) {
+                            try {
+                                return o1.getMerit() - o2.getMerit();
+                            } catch (SQLException ex) {
+                                throw new RuntimeException("Failed to retrieve merit data.");
+                            }
+                        }
+                    }));
+                }
             }
             if (!f.populateOfficers(allBuildings, cityCnt, connectedFactionCityCheckbox.isSelected(),
                     officers, Integer.parseInt(loyaltyLoText.getText()), Integer.parseInt(loyaltyHiText.getText()),
@@ -5284,7 +5306,8 @@ public class Frontend extends javax.swing.JFrame {
     private javax.swing.JTextField allRounderTypeWeightText;
     private javax.swing.JTextField attachmentHiText;
     private javax.swing.JTextField attachmentLoText;
-    private javax.swing.JRadioButton bestKingRadio;
+    private javax.swing.JRadioButton bestAbilityKingRadio;
+    private javax.swing.JRadioButton bestMeritKingRadio;
     private javax.swing.ButtonGroup bloodGroup;
     private javax.swing.ButtonGroup bloodImitateGroup;
     private javax.swing.JLabel bloodImitateProbLabel;

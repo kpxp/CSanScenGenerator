@@ -43,6 +43,10 @@ public class Title {
         influences = inInfluences;
         conditions = inConditions;
     }
+    
+    public int getLevel(){
+        return level;
+    }
 
     public static Map<Integer, Title> getPersonalTitles(Connection commonData) throws SQLException {
         if (personalTitle == null) {
@@ -125,7 +129,7 @@ public class Title {
         List<Integer> influences = new ArrayList<Integer>();
         List<Integer> leaderInfluences = new ArrayList<Integer>();
         boolean combat = false;
-        int remainValue = level * level * 20 + 20;
+        int remainValue = level * level * 25 + 30;
         int trials = 0;
         while (trials < 1000) {
             trials++;
