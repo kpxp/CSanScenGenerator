@@ -543,6 +543,7 @@ public class Frontend extends javax.swing.JFrame {
         mapCityCntHiText = new javax.swing.JTextField();
         jLabel178 = new javax.swing.JLabel();
         cityBorderToleranceText = new javax.swing.JTextField();
+        lowerChanceForLargeCityCheckbox = new javax.swing.JCheckBox();
         jLabel177 = new javax.swing.JLabel();
         mapStartTerrainCombo = new javax.swing.JComboBox();
         exportSettingButton = new javax.swing.JButton();
@@ -4278,6 +4279,13 @@ public class Frontend extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
         jPanel30.add(cityBorderToleranceText, gridBagConstraints);
 
+        lowerChanceForLargeCityCheckbox.setText("大城池機會較小");
+        lowerChanceForLargeCityCheckbox.setToolTipText("點上這選項後，生成大城池的機會較小城池的機會少");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 2;
+        jPanel30.add(lowerChanceForLargeCityCheckbox, gridBagConstraints);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -4673,7 +4681,8 @@ public class Frontend extends javax.swing.JFrame {
                     GameMap.strToTerrain(terrainStartStr), setting);
             allBuildings = map.populateWithNewBuildings(Integer.parseInt(mapCityCntLoText.getText()), Integer.parseInt(mapCityCntHiText.getText()),
                     Integer.parseInt(mapHarbourCntLoText.getText()), Integer.parseInt(mapHarbourCntHiText.getText()),
-                    Integer.parseInt(mapCitySizeLoText.getText()), Integer.parseInt(mapCitySizeHiText.getText()), Integer.parseInt(cityBorderToleranceText.getText()));
+                    Integer.parseInt(mapCitySizeLoText.getText()), Integer.parseInt(mapCitySizeHiText.getText()), 
+                    lowerChanceForLargeCityCheckbox.isSelected(), Integer.parseInt(cityBorderToleranceText.getText()));
         } else {
             allBuildings = Building.readBuildings(scenConn);
         }
@@ -5629,6 +5638,7 @@ public class Frontend extends javax.swing.JFrame {
     private javax.swing.JSlider kingHasMoreChildrenProbSlider;
     private javax.swing.JComboBox langCombo;
     private javax.swing.JTextField leaderPossibilityFactorText;
+    private javax.swing.JCheckBox lowerChanceForLargeCityCheckbox;
     private javax.swing.JTextField loyaltyHiText;
     private javax.swing.JTextField loyaltyLoText;
     private javax.swing.JCheckBox maleKingCheckbox;

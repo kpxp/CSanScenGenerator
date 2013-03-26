@@ -118,7 +118,7 @@ public class GameMap {
         }
     }
 
-    public List<Building> populateWithNewBuildings(int cityCntLo, int cityCntHi, int harbourCntLo, int harbourCntHi, int sizeLo, int sizeHi, int borderNoCity) throws IOException {
+    public List<Building> populateWithNewBuildings(int cityCntLo, int cityCntHi, int harbourCntLo, int harbourCntHi, int sizeLo, int sizeHi, boolean sizeExp, int borderNoCity) throws IOException {
         int buildingCnt = Utility.randBetween(cityCntLo, cityCntHi);
         int harbourCnt = Utility.randBetween(harbourCntLo, harbourCntHi);
 
@@ -128,7 +128,15 @@ public class GameMap {
         for (int i = 0; i < buildingCnt; ++i) {
             Building b = Building.createBuilding(Building.TYPE_CITY);
 
-            int size = (int) Utility.randGaussian((sizeLo + sizeHi) / 2, (sizeHi - sizeLo) / 2);
+            int size;
+            if (sizeLo >= sizeHi){
+                size = sizeLo;
+            } else if (sizeExp){
+                size = (int) Utility.randGaussian((sizeLo + sizeHi) / 2, (sizeHi - sizeLo) / 2);
+            } else {
+                double prob = -Math.log(0.03) / Math.log(sizeHi - sizeLo);
+                for (size = sizeLo; Utility.probTestPercentage(prob) && size < sizeHi; ++size);
+            }
             if (size <= 0) size = 1;
 
             Set<Point> loc = new HashSet<Point>();

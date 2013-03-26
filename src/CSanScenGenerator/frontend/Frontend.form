@@ -4948,6 +4948,17 @@
                     </Constraint>
                   </Constraints>
                 </Component>
+                <Component class="javax.swing.JCheckBox" name="lowerChanceForLargeCityCheckbox">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="&#x5927;&#x57ce;&#x6c60;&#x6a5f;&#x6703;&#x8f03;&#x5c0f;"/>
+                    <Property name="toolTipText" type="java.lang.String" value="&#x9ede;&#x4e0a;&#x9019;&#x9078;&#x9805;&#x5f8c;&#xff0c;&#x751f;&#x6210;&#x5927;&#x57ce;&#x6c60;&#x7684;&#x6a5f;&#x6703;&#x8f03;&#x5c0f;&#x57ce;&#x6c60;&#x7684;&#x6a5f;&#x6703;&#x5c11;"/>
+                  </Properties>
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+                      <GridBagConstraints gridX="4" gridY="2" gridWidth="1" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="10" weightX="0.0" weightY="0.0"/>
+                    </Constraint>
+                  </Constraints>
+                </Component>
               </SubComponents>
             </Container>
             <Component class="javax.swing.JLabel" name="jLabel177">
