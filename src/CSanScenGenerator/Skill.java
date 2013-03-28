@@ -18,7 +18,7 @@ public class Skill {
     public static Map<Integer, Skill> getSkills(java.sql.Connection commonData) throws java.sql.SQLException {
         if (skills == null) {
             java.sql.Statement stmt = commonData.createStatement();
-            java.sql.ResultSet rs = stmt.executeQuery("select ID, Level from Skill");
+            java.sql.ResultSet rs = stmt.executeQuery("select ID, `Level` from Skill");
             skills = new HashMap<Integer, Skill>();
             while (rs.next()) {
                 int id = rs.getInt("ID");

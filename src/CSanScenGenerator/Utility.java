@@ -392,7 +392,12 @@ public final class Utility {
      * @throws IOException 
      */
     public static void copyFile(String src, String dest) throws IOException{
-        FileInputStream fis = new FileInputStream(src);
+        FileInputStream fis;
+        try {
+            fis = new FileInputStream(src);
+        } catch (FileNotFoundException ex){
+            return;
+        }
         FileOutputStream fos = new FileOutputStream(dest);
 
         byte[] b = new byte[4096];

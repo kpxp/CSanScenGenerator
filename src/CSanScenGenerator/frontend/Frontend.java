@@ -4972,8 +4972,12 @@ public class Frontend extends javax.swing.JFrame {
         //last but not least, write description
         PreparedStatement pstmt = null;
         try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            Calendar cal = Calendar.getInstance();
+            final String now = sdf.format(cal.getTime());
+            
             pstmt = scenConn.prepareStatement("update GameSurvey set Description = ?, GMonth = ?, GDay = ?");
-            pstmt.setString(1, "由" + APP_NAME + "生成的劇本");
+            pstmt.setString(1, "由" + APP_NAME + "於" + now + "生成的劇本");
             pstmt.setInt(2, 1);
             pstmt.setInt(3, 1);
             pstmt.executeUpdate();
@@ -4988,14 +4992,13 @@ public class Frontend extends javax.swing.JFrame {
         Connection commonDataConn = null;
         tc = langCombo.getSelectedIndex() == 0;
         
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         Calendar cal = Calendar.getInstance();
- 
         final String now = sdf.format(cal.getTime());
         
         try {
             Utility.copyFile(gamePath + "/GameData/Scenario/generatedScen.mdb", gamePath + "/GameData/Scenario/generatedScen_" + now + ".mdb");
-            Utility.copyFile(gamePath + "/GameData/Common/CommonData.mdb", gamePath + "/GameData/ScenarioCommon/CommonData_" + now + ".mdb");
+            Utility.copyFile(gamePath + "/GameData/Common/CommonData.mdb", gamePath + "/GameData/Common/CommonData_" + now + ".mdb");
             Utility.copyFile("ScenGenTemplate.mdb", gamePath + "/GameData/Scenario/generatedScen.mdb");
             try {
                 Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
