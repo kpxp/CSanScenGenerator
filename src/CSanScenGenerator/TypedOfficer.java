@@ -498,7 +498,7 @@ public class TypedOfficer extends Officer {
             }
         }
         if (battleTitle / 10 == 30 || battleTitle / 10 == 32) {
-            battleTitle = battleTitle / 10 + maxType;
+            battleTitle = battleTitle / 10 * 10 + maxType;
         }
 
     }

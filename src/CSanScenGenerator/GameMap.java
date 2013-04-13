@@ -131,11 +131,12 @@ public class GameMap {
             int size;
             if (sizeLo >= sizeHi){
                 size = sizeLo;
-            } else if (sizeExp){
+            } else if (!sizeExp){
                 size = (int) Utility.randGaussian((sizeLo + sizeHi) / 2, (sizeHi - sizeLo) / 2);
             } else {
-                double prob = -Math.log(0.03) / Math.log(sizeHi - sizeLo);
-                for (size = sizeLo; Utility.probTestPercentage(prob) && size < sizeHi; ++size);
+                do {
+                    size = (int) Utility.randGaussian(sizeLo, (sizeHi - sizeLo));
+                } while (size < sizeLo);
             }
             if (size <= 0) size = 1;
 
@@ -149,6 +150,9 @@ public class GameMap {
             }
             occupiedPoints.add(candidate);
             loc.add(candidate);
+            if (mapData[candidate.y][candidate.x] == Terrain.MOUNTAIN){
+                mapData[candidate.y][candidate.x] = Terrain.HILL;
+            }
 
             for (int j = 1; j < size; ++j) {
                 while (true) {
@@ -191,6 +195,7 @@ public class GameMap {
         for (int i = 0; i < mapData.length; ++i){
             for (int j = 0; j < mapData[i].length; ++j){
                 if (occupiedPoints.contains(new Point(i, j))) continue;
+                if (i < borderNoCity || j < borderNoCity || i >= dimensionX - borderNoCity || j >= dimensionY - borderNoCity) continue;
                 if (mapData[i][j] == Terrain.WATER){
                     if (i > 0 && mapData[i-1][j] != Terrain.WATER){
                         besideWaterLoc.add(new Point(j, i));

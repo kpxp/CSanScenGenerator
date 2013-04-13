@@ -4992,7 +4992,7 @@ public class Frontend extends javax.swing.JFrame {
         Connection commonDataConn = null;
         tc = langCombo.getSelectedIndex() == 0;
         
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HHmm");
         Calendar cal = Calendar.getInstance();
         final String now = sdf.format(cal.getTime());
         

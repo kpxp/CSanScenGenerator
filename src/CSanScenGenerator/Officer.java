@@ -243,7 +243,7 @@ public class Officer {
         
         int battleTitleLevel = 0;
         if (this.battleTitle >= 0){
-            battleTitleLevel = Title.getPersonalTitles(commonData).get(this.battleTitle).getLevel();
+            battleTitleLevel = Title.getBattleTitles(commonData).get(this.battleTitle).getLevel();
         }
         
         int allSkillMerit = 0;
