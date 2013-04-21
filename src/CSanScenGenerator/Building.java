@@ -186,7 +186,7 @@ public class Building {
             for (int i = 0; i < cnt; ++i) {
                 Army a = new Army();
                 a.randomSoldier(troopLo, troopHi);
-                a.randomType(this.type == 3);
+                a.randomType(this.type == 3, this.team.getFaction().getTroopKinds());
                 a.randomMorale(mlo, mhi);
                 a.randomLeader(this.officers, elo, ehi);
                 armies.add(a);

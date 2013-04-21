@@ -77,11 +77,15 @@ public class Faction {
         }
     }
 
-    public void defaultTroopKinds() {
-        troopKinds.addAll(Arrays.asList(0, 1, 2, 29, 30));
+    public void defaultTroopKinds(boolean mustHaveBasic) {
+        if (mustHaveBasic) {
+            troopKinds.addAll(Arrays.asList(0, 1, 2, 29, 30));
+        } else {
+            troopKinds.addAll(Arrays.asList(29, 30));
+        }
     }
     
-    public void randomTroopKinds(double prob) throws IOException{
+    public void randomTroopKinds(double prob, boolean mustHaveBasic) throws IOException{
         if (usableTroopKinds == null){
             usableTroopKinds = new HashSet<Integer>();
             String s;
@@ -94,10 +98,17 @@ public class Faction {
             }
         }
         troopKinds.clear();
-        defaultTroopKinds();
+        defaultTroopKinds(mustHaveBasic);
         while (Utility.probTestPercentage(prob)){
             troopKinds.add(Utility.randomPick(usableTroopKinds));
         }
+        if (troopKinds.size() < 3){
+            troopKinds.add(Utility.randomPick(usableTroopKinds));
+        }
+    }
+    
+    public Set<Integer> getTroopKinds() {
+        return this.troopKinds;
     }
 
     public void setKing(Officer o) {

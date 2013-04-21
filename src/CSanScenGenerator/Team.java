@@ -20,6 +20,10 @@ public class Team {
         buildings = new ArrayList<Building>();
     }
     
+    public Faction getFaction(){
+        return faction;
+    }
+    
     /**
      * Populate the team with officers
      * @param belongFaction Which faction this team belong to

@@ -488,6 +488,7 @@ public class Frontend extends javax.swing.JFrame {
         jLabel109 = new javax.swing.JLabel();
         factionSpecialTroopSlider = new javax.swing.JSlider();
         factionSpecialTroopLabel = new javax.swing.JLabel();
+        mustHaveBasicArmyKindCheckbox = new javax.swing.JCheckBox();
         maleKingCheckbox = new javax.swing.JCheckBox();
         jPanel23 = new javax.swing.JPanel();
         jLabel146 = new javax.swing.JLabel();
@@ -3801,7 +3802,7 @@ public class Frontend extends javax.swing.JFrame {
         jLabel109.setText("勢力獲得特殊兵種機率");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
         jPanel17.add(jLabel109, gridBagConstraints);
@@ -3816,11 +3817,24 @@ public class Frontend extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.ipadx = 150;
+        gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
         jPanel17.add(factionSpecialTroopSlider, gridBagConstraints);
 
         factionSpecialTroopLabel.setText("15%");
-        jPanel17.add(factionSpecialTroopLabel, new java.awt.GridBagConstraints());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
+        jPanel17.add(factionSpecialTroopLabel, gridBagConstraints);
+
+        mustHaveBasicArmyKindCheckbox.setText("必定有基本兵種");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
+        jPanel17.add(mustHaveBasicArmyKindCheckbox, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -4762,7 +4776,7 @@ public class Frontend extends javax.swing.JFrame {
             Faction f = new Faction(i, strong, commonDataConn);
             f.randomReputation(Integer.parseInt(strong ? strongFactionReputationLoText.getText() : reputationLoText.getText()),
                     Integer.parseInt(strong ? strongFactionReputationHiText.getText() : reputationHiText.getText()));
-            f.randomTroopKinds(strong ? strongFactionSpecialTroopSlider.getValue() : factionSpecialTroopSlider.getValue());
+            f.randomTroopKinds(strong ? strongFactionSpecialTroopSlider.getValue() : factionSpecialTroopSlider.getValue(), mustHaveBasicArmyKindCheckbox.isSelected());
             f.randomTechniques((strong ? strongFactionTechniqueProbSlider.getValue() : factionTechniqueProbSlider.getValue()) / 100.0);
             f.setColor(colors.get(i % colors.size()));
             //prepare officer in the faction and populate the faction
@@ -5659,6 +5673,7 @@ public class Frontend extends javax.swing.JFrame {
     private javax.swing.JTextField moraleLoText;
     private javax.swing.JLabel moreCityFactionProbLabel;
     private javax.swing.JSlider moreCityFactionProbSlider;
+    private javax.swing.JCheckBox mustHaveBasicArmyKindCheckbox;
     private javax.swing.JLabel noSpecialProb1Label;
     private javax.swing.JLabel noSpecialProb1Label1;
     private javax.swing.JLabel noSpecialProb1Label2;

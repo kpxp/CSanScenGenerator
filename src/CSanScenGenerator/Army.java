@@ -25,17 +25,18 @@ public class Army {
         autoId++;
     }
     
-    public void randomType(boolean water){
+    public void randomType(boolean water, Set<Integer> troopKinds){
         if (water && Utility.probTestPercentage((50))){
             type = 30;
             name = CSanScenGenerator.frontend.Frontend.isTc() ? "走舸隊" : "走舸队";
         } else {
             type = Utility.randBetween(0, 2);
-            if (CSanScenGenerator.frontend.Frontend.isTc()){
+            name = "部隊";
+            /*if (CSanScenGenerator.frontend.Frontend.isTc()){
                 name = (type == 0 ? "輕步兵" : (type == 1 ? "輕弩兵" : "輕騎兵")) + "隊";
             } else {
                 name = (type == 0 ? "轻步兵" : (type == 1 ? "轻弩兵" : "轻骑兵")) + "队";
-            }
+            }*/
         }
     }
     
