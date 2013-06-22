@@ -30,7 +30,9 @@ public class Army {
             type = 30;
             name = CSanScenGenerator.frontend.Frontend.isTc() ? "走舸隊" : "走舸队";
         } else {
-            type = Utility.randBetween(0, 2);
+            do {
+                type = Utility.randomPick(troopKinds);
+            } while (type == 30 || type == 29);
             name = "部隊";
             /*if (CSanScenGenerator.frontend.Frontend.isTc()){
                 name = (type == 0 ? "輕步兵" : (type == 1 ? "輕弩兵" : "輕騎兵")) + "隊";

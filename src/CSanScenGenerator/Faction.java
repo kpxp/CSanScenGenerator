@@ -79,9 +79,9 @@ public class Faction {
 
     public void defaultTroopKinds(boolean mustHaveBasic) {
         if (mustHaveBasic) {
-            troopKinds.addAll(Arrays.asList(0, 1, 2, 29, 30));
+            troopKinds.addAll(Arrays.asList(0, 1, 2, 25, 29, 30));
         } else {
-            troopKinds.addAll(Arrays.asList(29, 30));
+            troopKinds.addAll(Arrays.asList(25, 29, 30));
         }
     }
     

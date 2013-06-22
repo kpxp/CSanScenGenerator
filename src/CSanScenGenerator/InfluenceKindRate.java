@@ -238,12 +238,14 @@ public class InfluenceKindRate {
                 stmt.setString(4, desc);
                 stmt.setDouble(5, param);
                 //for Kind 352 capped water capability and 6140 decrease loyalty capped by loyalty
-                if (k.id == 352 || k.id == 6140){
+                if (k.id == 352 || k.id == 6140 || (k.id >= 6700 && k.id <= 6745) || k.id == 6760){
                     stmt.setInt(6, 1);
                 } else if (k.id == 6360){
                     stmt.setInt(6, 150);
                 } else if (k.id == 6350) {
                     stmt.setInt(6, 3);
+                } else if (k.id == 6750) {
+                    stmt.setInt(6, 100);
                 } else {
                     stmt.setString(6, "");
                 }

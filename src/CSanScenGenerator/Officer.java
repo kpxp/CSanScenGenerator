@@ -239,11 +239,13 @@ public class Officer {
         int personalTitleLevel = 0;
         if (this.personalTitle >= 0){
             personalTitleLevel = Title.getPersonalTitles(commonData).get(this.personalTitle).getLevel();
+            personalTitleLevel = (int) (Math.pow(personalTitleLevel, 1.5) * 15);
         }
         
         int battleTitleLevel = 0;
         if (this.battleTitle >= 0){
             battleTitleLevel = Title.getBattleTitles(commonData).get(this.battleTitle).getLevel();
+            battleTitleLevel = (int) (Math.pow(battleTitleLevel, 1.5) * 15);
         }
         
         int allSkillMerit = 0;

@@ -17,6 +17,7 @@ import java.text.SimpleDateFormat;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
+import javax.swing.table.TableModel;
 
 /**
  *
@@ -64,6 +65,9 @@ public class Frontend extends javax.swing.JFrame {
             loadSetting(new File("last.ORSET"));
         } catch (Exception ex) {
         }
+        
+        oldMapSizeX = Integer.parseInt(mapSizeXText.getText());
+        oldMapSizeY = Integer.parseInt(mapSizeYText.getText());
 
         settingFileChooser = new JFileChooser();
         settingFileChooser.addChoosableFileFilter(new javax.swing.filechooser.FileFilter() {
@@ -4148,6 +4152,11 @@ public class Frontend extends javax.swing.JFrame {
 
         mapSizeXText.setText("150");
         mapSizeXText.setToolTipText("地圖東至西格數");
+        mapSizeXText.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                mapSizeXTextFocusLost(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
@@ -4164,6 +4173,11 @@ public class Frontend extends javax.swing.JFrame {
 
         mapSizeYText.setText("150");
         mapSizeYText.setToolTipText("地圖南至北格數");
+        mapSizeYText.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                mapSizeYTextFocusLost(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 0;
@@ -5307,6 +5321,39 @@ public class Frontend extends javax.swing.JFrame {
     private void strongOfficerGeneratedTitleProbSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_strongOfficerGeneratedTitleProbSliderStateChanged
         strongOfficerGeneratedTitleProbLabel.setText(strongOfficerGeneratedTitleProbSlider.getValue() + "%");
     }//GEN-LAST:event_strongOfficerGeneratedTitleProbSliderStateChanged
+
+    private int oldMapSizeX, oldMapSizeY;
+    private void updateMapTable(){
+        int oldMapSize = oldMapSizeX * oldMapSizeY;
+        int newMapSize = Integer.parseInt(mapSizeXText.getText()) * Integer.parseInt(mapSizeYText.getText());
+        double ratio = newMapSize / (double) oldMapSize;
+        
+        TableModel model = terrainSettingTable.getModel();
+        for (int i = 0; i < model.getRowCount(); i++){
+            for (int j = 1; j <= 4; ++j){
+                try {
+                    model.setValueAt(Math.round(Integer.parseInt(model.getValueAt(i, j).toString()) * ratio), i, j);
+                } catch (NumberFormatException ex){
+                    //ignore
+                }
+            }
+        }
+        mapCityCntLoText.setText(Long.toString(Math.round(Integer.parseInt(mapCityCntLoText.getText()) * ratio)));
+        mapCityCntHiText.setText(Long.toString(Math.round(Integer.parseInt(mapCityCntHiText.getText()) * ratio)));
+        mapHarbourCntLoText.setText(Long.toString(Math.round(Integer.parseInt(mapHarbourCntLoText.getText()) * ratio)));
+        mapHarbourCntHiText.setText(Long.toString(Math.round(Integer.parseInt(mapHarbourCntHiText.getText()) * ratio)));
+        
+        oldMapSizeX = Integer.parseInt(mapSizeXText.getText());
+        oldMapSizeY = Integer.parseInt(mapSizeYText.getText());
+    }
+    
+    private void mapSizeXTextFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_mapSizeXTextFocusLost
+        updateMapTable();
+    }//GEN-LAST:event_mapSizeXTextFocusLost
+
+    private void mapSizeYTextFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_mapSizeYTextFocusLost
+        updateMapTable();
+    }//GEN-LAST:event_mapSizeYTextFocusLost
 
     /**
      * @param args the command line arguments
