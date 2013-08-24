@@ -26,7 +26,7 @@ import javax.swing.table.TableModel;
 public class Frontend extends javax.swing.JFrame {
 
     public static final int MAX_OFFICER = 5000;
-    public static final String APP_NAME = "中華三國志劇本生成器(v3.2) by 耒戈氏";
+    public static final String APP_NAME = "中華三國志劇本生成器(v3.3) by 耒戈氏";
     public static final String SETTING_FILE_EXTENSION = "ORSET";
     final JFileChooser settingFileChooser, gamePathChooser;
     private String gamePath;
@@ -4716,7 +4716,7 @@ public class Frontend extends javax.swing.JFrame {
         }
         
         //create influences
-        InfluenceRate.addInfluences(commonDataConn, InfluenceKindRate.generateInfluences(commonDataConn, Utility.randBetween(800, 1200)));
+        InfluenceRate.addInfluences(commonDataConn, InfluenceKindRate.generateInfluences(scenConn, Utility.randBetween(800, 1200)));
 
         List<Officer> allOfficers = new ArrayList<Officer>();
 
@@ -4746,8 +4746,8 @@ public class Frontend extends javax.swing.JFrame {
         //clear conditions
         Statement s = null;
         try {
-            s = commonDataConn.createStatement();
-            s.executeUpdate("delete from Condition where ID >= 10000");
+            s = scenConn.createStatement();
+            s.executeUpdate("delete from Condition where ID >= 20000");
         } finally {
             if (s != null){
                 s.close();
@@ -4941,7 +4941,7 @@ public class Frontend extends javax.swing.JFrame {
         }
         
         //write generated common data
-        Title.writeTitles(commonDataConn);
+        Title.writeTitles(scenConn);
 
         //write officers
         for (Officer i : allOfficers) {
@@ -5026,7 +5026,7 @@ public class Frontend extends javax.swing.JFrame {
         
         try {
             Utility.copyFile(gamePath + "/GameData/Scenario/generatedScen.mdb", gamePath + "/GameData/Scenario/generatedScen_" + now + ".mdb");
-            Utility.copyFile(gamePath + "/GameData/Common/CommonData.mdb", gamePath + "/GameData/Common/CommonData_" + now + ".mdb");
+            //Utility.copyFile(gamePath + "/GameData/Common/CommonData.mdb", gamePath + "/GameData/Common/CommonData_" + now + ".mdb");
             Utility.copyFile("ScenGenTemplate.mdb", gamePath + "/GameData/Scenario/generatedScen.mdb");
             try {
                 Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");

@@ -96,14 +96,14 @@ public class InfluenceKindRate {
     public static Map<Integer, InfluenceRate> generateInfluences(Connection commonData, int cnt) throws IOException, SQLException{
         //delete generated things
         Statement dstmt = commonData.createStatement();
-        dstmt.execute("delete from Influence where ID >= 10000");
+        dstmt.execute("delete from Influence where ID >= 20000");
         dstmt.close();
         
         Map<Integer, InfluenceKindRate> kinds = getInfluenceKindRates();
         Map<Integer, InfluenceRate> result = new HashMap<Integer, InfluenceRate>();
         for (int i = 0; i < cnt; ++i){
             InfluenceRate r = new InfluenceRate();
-            r.id = 10000 + i;
+            r.id = 20000 + i;
             
             //randomly pick a kind
             InfluenceKindRate k;

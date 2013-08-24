@@ -52,7 +52,7 @@ public class Condition {
         return conditions;
     }
     
-    private static int autoId = 10000;
+    private static int autoId = 20000;
     public static List<Integer> writeConditions(Connection cdData, List<Condition> condition) throws SQLException{
         PreparedStatement pstmt = null;
         List<Integer> r = new ArrayList<Integer>();
