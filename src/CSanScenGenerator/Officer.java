@@ -25,7 +25,7 @@ public class Officer {
             officerTendency, hanAttitude, stretagicalAttitude, bornLocation;
     protected Set<Integer> skill = new HashSet<Integer>();
     protected Set<Integer> stunt = new HashSet<Integer>();
-    protected int personalTitle = -1, battleTitle = -1;
+    protected int title = -1;
     protected boolean debutted, living;
     protected int id, blood, tightblood;
     protected boolean canStartFaction;
@@ -236,18 +236,12 @@ public class Officer {
     }
     
     public int getMerit() throws SQLException {
-        int personalTitleLevel = 0;
-        if (this.personalTitle >= 0){
-            personalTitleLevel = Title.getPersonalTitles(commonData).get(this.personalTitle).getLevel();
-            personalTitleLevel = (int) (Math.pow(personalTitleLevel, 1.5) * 15);
+        int titleLevel = 0;
+        if (this.title >= 0){
+            titleLevel = Title.getTitles().get(this.title).getLevel();
+            titleLevel = (int) (Math.pow(titleLevel, 1.5) * 15);
         }
-        
-        int battleTitleLevel = 0;
-        if (this.battleTitle >= 0){
-            battleTitleLevel = Title.getBattleTitles(commonData).get(this.battleTitle).getLevel();
-            battleTitleLevel = (int) (Math.pow(battleTitleLevel, 1.5) * 15);
-        }
-        
+
         int allSkillMerit = 0;
         for (int i : this.skill) {
             Skill s = Skill.getSkills(commonData).get(i);
@@ -255,7 +249,7 @@ public class Officer {
         }
         
         return (this.might + this.leadership + this.intelligence + this.politics + this.glamour) * 
-                (100 + personalTitleLevel + battleTitleLevel + allSkillMerit);
+                (100 + titleLevel + allSkillMerit);
     }
 
     public int getAbilityMin() {
@@ -552,72 +546,38 @@ public class Officer {
         }
     }
 
-    public void personalTitleFromParent(double noSpecProb, int inherit) throws SQLException {
-        randomPersonalTitles(noSpecProb);
+    public boolean titleFromParent(double noSpecProb, int inherit) throws SQLException {
         if (father != null && mother != null) {
             if (Utility.probTestPercentage(inherit * 2)) {
-                personalTitle = (Utility.probTestPercentage(50) ? father : mother).personalTitle;
-                return;
+                title = (Utility.probTestPercentage(50) ? father : mother).title;
+                return true;
             }
         } else {
             if (Utility.probTestPercentage(inherit)) {
-                personalTitle = (father != null ? father : mother).personalTitle;
-                return;
+                title = (father != null ? father : mother).title;
+                return true;
             }
         }
+        return false;
     }
 
-    public void randomPersonalTitles(double noSpecProb) throws SQLException {
+    /*public void randomTitles(double noSpecProb) throws SQLException {
         if (rng.nextFloat() < noSpecProb) {
-            personalTitle = -1;
+            title = -1;
         } else {
-            Set<Integer> personalTitles = Title.getPersonalTitles(commonData).keySet();
+            Set<Integer> personalTitles = Title.getTitles().keySet();
             List<Integer> ids = new ArrayList<Integer>();
             for (Integer i : personalTitles) {
                 ids.add(i);
             }
-            personalTitle = Utility.randomPick(ids);
+            title = Utility.randomPick(ids);
         }
-    }
+    }*/
     
-    public void createUniquePersonalTitle(int lo, int hi, double learnableRate) throws java.io.IOException, SQLException{
+    public void createUniqueTitle(int lo, int hi, double learnableRate) throws java.io.IOException, SQLException{
         double mean = (lo + hi) / 2.0;
         double var = hi - mean;
-        personalTitle = Title.getCreatedTitle(commonData, TypedOfficer.NORMAL, (int) Utility.randGaussian(mean, var), false, learnableRate);
-    }
-
-    public void battleTitleFromParent(double noSpecProb, int inherit) throws SQLException {
-        randomBattleTitles(noSpecProb);
-        if (father != null && mother != null) {
-            if (Utility.probTestPercentage(inherit * 2)) {
-                battleTitle = (Utility.probTestPercentage(50) ? father : mother).battleTitle;
-                return;
-            }
-        } else {
-            if (Utility.probTestPercentage(inherit)) {
-                battleTitle = (father != null ? father : mother).battleTitle;
-                return;
-            }
-        }
-    }
-
-    public void randomBattleTitles(double noSpecProb) throws SQLException {
-        if (rng.nextFloat() < noSpecProb) {
-            battleTitle = -1;
-        } else {
-            Set<Integer> battleTitles = Title.getBattleTitles(commonData).keySet();
-            List<Integer> ids = new ArrayList<Integer>();
-            for (Integer i : battleTitles) {
-                ids.add(i);
-            }
-            battleTitle = Utility.randomPick(ids);
-        }
-    }
-    
-    public void createUniqueBattleTitle(int lo, int hi, double learnableRate) throws java.io.IOException, SQLException{
-        double mean = (lo + hi) / 2.0;
-        double var = hi - mean;
-        battleTitle = Title.getCreatedTitle(commonData, TypedOfficer.NORMAL, (int) Utility.randGaussian(mean, var), true, learnableRate);
+        title = Title.getCreatedTitle(commonData, TypedOfficer.NORMAL, (int) Utility.randGaussian(mean, var), learnableRate);
     }
 
     public void clearSpecial() {
@@ -764,9 +724,9 @@ public class Officer {
             pstmt = conn.prepareStatement("insert into Person (ID, Available, Alive, SurName, GivenName, CalledName, Sex, Pic, "
                     + "Ideal, IdealTendency, PCharacter, YearAvailable, YearBorn, YearDead, DeadReason, Strength, Command, Intelligence, "
                     + "Politics, Glamour, Reputation, Braveness, Calmness, Loyalty, BornRegion, AvailableLocation, PersonalLoyalty, Ambition,"
-                    + "Qualification, ValuationOnGovernment, StrategyTendency, Skills, PersonalTitle, CombatTitle, Stunts, "
+                    + "Qualification, ValuationOnGovernment, StrategyTendency, Skills, Title, Stunts, "
                     + "Strain, Father, Mother, Spouse, Brother, Generation, LeaderPossibility, ClosePersons, HatedPersons) values"
-                    + "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                    + "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             pstmt.setInt(1, id);
             pstmt.setBoolean(2, debutted);
             pstmt.setBoolean(3, living);
@@ -806,18 +766,17 @@ public class Officer {
             pstmt.setInt(30, hanAttitude);
             pstmt.setInt(31, stretagicalAttitude);
             pstmt.setString(32, Utility.join(skill.toArray(), " "));
-            pstmt.setInt(33, personalTitle);
-            pstmt.setInt(34, battleTitle);
-            pstmt.setString(35, Utility.join(stunt.toArray(), " "));
-            pstmt.setInt(36, blood);
-            pstmt.setInt(37, father == null ? -1 : father.id);
-            pstmt.setInt(38, mother == null ? -1 : mother.id);
-            pstmt.setInt(39, spouse == null ? -1 : spouse.id);
-            pstmt.setInt(40, brother == null ? -1 : brother.id);
-            pstmt.setInt(41, generation);
-            pstmt.setBoolean(42, leaderPossibility);
-            pstmt.setString(43, Utility.join(Officer.officerIds(imitateOfficer).toArray(), " "));
-            pstmt.setString(44, Utility.join(Officer.officerIds(hateOfficer).toArray(), " "));
+            pstmt.setString(33, title + "");
+            pstmt.setString(34, Utility.join(stunt.toArray(), " "));
+            pstmt.setInt(35, blood);
+            pstmt.setInt(36, father == null ? -1 : father.id);
+            pstmt.setInt(37, mother == null ? -1 : mother.id);
+            pstmt.setInt(38, spouse == null ? -1 : spouse.id);
+            pstmt.setInt(39, brother == null ? -1 : brother.id);
+            pstmt.setInt(40, generation);
+            pstmt.setBoolean(41, leaderPossibility);
+            pstmt.setString(42, Utility.join(Officer.officerIds(imitateOfficer).toArray(), " "));
+            pstmt.setString(43, Utility.join(Officer.officerIds(hateOfficer).toArray(), " "));
             pstmt.executeUpdate();
         } finally {
             pstmt.close();

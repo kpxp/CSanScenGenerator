@@ -64,8 +64,7 @@ public final class ScenOfficerReader {
                 o.hanAttitude = rs.getInt("ValuationOnGovernment");
                 o.stretagicalAttitude = rs.getInt("StrategyTendency");
                 o.skill = Utility.fromIntListToSet(rs.getString("Skills"));
-                o.personalTitle = rs.getInt("PersonalTitle");
-                o.battleTitle = rs.getInt("CombatTitle");
+                o.title = rs.getInt("PersonalTitle");
                 o.stunt = Utility.fromIntListToSet(rs.getString("Stunts"));
                 officers.put(o.id, o);
             }

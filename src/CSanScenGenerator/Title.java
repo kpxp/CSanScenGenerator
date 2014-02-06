@@ -10,21 +10,18 @@ import java.io.*;
  */
 public class Title {
 
-    private static Map<Integer, Title> personalTitle;
-    private static Map<Integer, Title> battleTitle;
+    private static Map<Integer, Title> titles = new HashMap<Integer, Title>();
     private int id;
     private int level;
-    private boolean battle;
     private String name, description, conditionString;
     private List<Integer> influences, conditions;
     
-    private static final int CREATED_TITLE_ID_ABOVE = 1000;
+    private static final int CREATED_TITLE_ID_ABOVE = 20000;
 
-    private Title(int inId, int inLevel, boolean inBattle, String inName, String inDescription, String inConditionString, String inInfluences,
+    private Title(int inId, int inLevel, String inName, String inDescription, String inConditionString, String inInfluences,
             String inConditions) {
         id = inId;
         level = inLevel;
-        battle = inBattle;
         name = inName;
         description = inDescription;
         conditionString = inConditionString;
@@ -32,11 +29,10 @@ public class Title {
         conditions = Utility.fromIntListToList(inConditions);
     }
 
-    private Title(int inId, int inLevel, boolean inBattle, String inName, String inDescription, String inConditionString, List<Integer> inInfluences,
+    private Title(int inId, int inLevel, String inName, String inDescription, String inConditionString, List<Integer> inInfluences,
             List<Integer> inConditions) {
         id = inId;
         level = inLevel;
-        battle = inBattle;
         name = inName;
         description = inDescription;
         conditionString = inConditionString;
@@ -48,42 +44,13 @@ public class Title {
         return level;
     }
 
-    public static Map<Integer, Title> getPersonalTitles(Connection commonData) throws SQLException {
-        if (personalTitle == null) {
-            Statement stmt = commonData.createStatement();
-            ResultSet rs = stmt.executeQuery("select * from Title where kind = 0 and ID < " + CREATED_TITLE_ID_ABOVE);
-            personalTitle = new HashMap<Integer, Title>();
-            while (rs.next()) {
-                int id = rs.getInt("ID");
-                personalTitle.put(id, new Title(id, rs.getInt("Level"), rs.getBoolean("Combat"), rs.getString("Name"),
-                        rs.getString("Description"), rs.getString("Prerequisite"), rs.getString("Influences"), rs.getString("Conditions")));
-            }
-            rs.close();
-            stmt.close();
-        }
-        return personalTitle;
+    public static Map<Integer, Title> getTitles() {
+        return titles;
     }
 
-    public static Map<Integer, Title> getBattleTitles(Connection commonData) throws SQLException {
-        if (battleTitle == null) {
-            Statement stmt = commonData.createStatement();
-            ResultSet rs = stmt.executeQuery("select * from Title where kind = 1 and ID < " + CREATED_TITLE_ID_ABOVE);
-            battleTitle = new HashMap<Integer, Title>();
-            while (rs.next()) {
-                int id = rs.getInt("ID");
-                battleTitle.put(id, new Title(id, rs.getInt("Level"), rs.getBoolean("Combat"), rs.getString("Name"),
-                        rs.getString("Description"), rs.getString("Prerequisite"), rs.getString("Influences"), rs.getString("Conditions")));
-            }
-            rs.close();
-            stmt.close();
-        }
-        return battleTitle;
-    }
     private static int autoId = CREATED_TITLE_ID_ABOVE;
     private static List<String> nameList;
-    public static int getCreatedTitle(Connection commonData, int type, int level, boolean battle, double learnableRate) throws IOException, SQLException {
-        getPersonalTitles(commonData);
-        getBattleTitles(commonData);
+    public static int getCreatedTitle(Connection commonData, int type, int level, double learnableRate) throws IOException, SQLException {
 
         int id = autoId;
         autoId++;
@@ -129,14 +96,14 @@ public class Title {
         List<Integer> influences = new ArrayList<Integer>();
         List<Integer> leaderInfluences = new ArrayList<Integer>();
         boolean combat = false;
-        int remainValue = level * level * 25 + 30;
+        int remainValue = (int) (2.5 * (5 * level * level - 10 * level + 11));
         int trials = 0;
         while (trials < 1000) {
             trials++;
-            Map<Integer, Integer> influencesProb = InfluenceRate.getTitleRates(commonData, type, battle);
+            Map<Integer, Integer> influencesProb = InfluenceRate.getTitleRates(commonData, type);
             int influence = Utility.randomCategorize(influencesProb);
             int actualValue = InfluenceRate.getActualValue(commonData, influence);
-            boolean leaderOnly = battle && Utility.probTestPercentage(InfluenceRate.getLeaderProb(commonData, influence)) 
+            boolean leaderOnly = Utility.probTestPercentage(InfluenceRate.getLeaderProb(commonData, influence)) 
                     && InfluenceRate.isBattle(commonData, influence);
             if (actualValue <= remainValue && (leaderOnly || actualValue * 1.5 <= remainValue) && !influences.contains(influence)) {
                 remainValue -= actualValue;
@@ -199,50 +166,24 @@ public class Title {
             influences.addAll(leaderInfluences);
         }
 
-        if (battle) {
-            battleTitle.put(id, new Title(id, lv, combat, name, descriptionBuilder.toString(), prereq, influences, condition));
-        } else {
-            personalTitle.put(id, new Title(id, lv, combat, name, descriptionBuilder.toString(), prereq, influences, condition));
-        }
+        titles.put(id, new Title(id, lv, name, descriptionBuilder.toString(), prereq, influences, condition));
 
         return id;
     }
 
     public static void writeTitles(Connection commonData) throws SQLException {
         Statement stmt = commonData.createStatement();
-        stmt.executeUpdate("delete from Title");
+        stmt.executeUpdate("delete from Title where ID >= " + CREATED_TITLE_ID_ABOVE);
         stmt.close();
         PreparedStatement pstmt = null;
         try {
-            if (personalTitle == null){
-                getPersonalTitles(commonData);
-            }
-            if (battleTitle == null){
-                getBattleTitles(commonData);
-            }
-            for (Title t : personalTitle.values()) {
-                pstmt = commonData.prepareStatement("insert into Title (ID, Kind, \"Level\", Combat, Name, Description, Prerequisite, Influences, Conditions) "
-                        + "values (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                pstmt.setInt(1, t.id);
-                pstmt.setInt(2, 0);
-                pstmt.setInt(3, t.level);
-                pstmt.setBoolean(4, t.battle);
-                pstmt.setString(5, t.name);
-                pstmt.setString(6, t.description);
-                pstmt.setString(7, t.conditionString);
-                pstmt.setString(8, Utility.join(t.influences.toArray(), " "));
-                pstmt.setString(9, Utility.join(t.conditions.toArray(), " "));
-                //pstmt.setCharacterStream(10, new StringReader(desc));
-                pstmt.executeUpdate();
-                pstmt.close();
-            }
-            for (Title t : battleTitle.values()) {
+            for (Title t : titles.values()) {
                 pstmt = commonData.prepareStatement("insert into Title (ID, Kind, \"Level\", Combat, Name, Description, Prerequisite, Influences, Conditions) "
                         + "values (?, ?, ?, ?, ?, ?, ?, ?, ?)");
                 pstmt.setInt(1, t.id);
                 pstmt.setInt(2, 1);
                 pstmt.setInt(3, t.level);
-                pstmt.setBoolean(4, t.battle);
+                pstmt.setInt(4, 1);
                 pstmt.setString(5, t.name);
                 pstmt.setString(6, t.description);
                 pstmt.setString(7, t.conditionString);
@@ -259,3 +200,4 @@ public class Title {
         }
     }
 }
+

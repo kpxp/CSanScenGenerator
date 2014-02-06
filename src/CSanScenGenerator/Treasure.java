@@ -25,7 +25,7 @@ public class Treasure {
     private String desc;
     private int type;
     private static List<String> nameList;
-    private static int autoId = 0;
+    private static int autoId = 10000;
 
     public Treasure(int type) throws IOException {
         id = autoId;

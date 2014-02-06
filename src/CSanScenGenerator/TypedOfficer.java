@@ -404,12 +404,12 @@ public class TypedOfficer extends Officer {
 
     }
 
-    @Override
-    public void randomPersonalTitles(double noSpecProb) {
+    /*@Override
+    public void randomTitles(double noSpecProb) {
         randomPersonalTitles(noSpecProb, type);
     }
 
-    public void randomPersonalTitles(double noSpecProb, int officerType) {
+    public void randomTitles(double noSpecProb, int officerType) {
         if (personalTitleProb == null) {
             personalTitleProb = new HashMap<Integer, int[]>();
             personalTitleCond = new HashMap<Integer, Map<String, String>>();
@@ -422,33 +422,28 @@ public class TypedOfficer extends Officer {
         }
 
         if (rng.nextFloat() < noSpecProb) {
-            personalTitle = -1;
+            title = -1;
         } else {
             boolean ok;
             int trials = 0;
             do {
                 trials++;
-                personalTitle = Utility.randomCategorize(prob);
-                ok = testConds(personalTitleCond.get(personalTitle));
+                title = Utility.randomCategorize(prob);
+                ok = testConds(personalTitleCond.get(title));
             } while (!ok && trials < 1000);
             if (!ok) {
-                personalTitle = -1;
+                title = -1;
             }
         }
-    }
+    }*/
     
     @Override
-    public void createUniquePersonalTitle(int lo, int hi, double learnableRate) throws IOException, SQLException{
-        createPersonalTitle((int) Utility.randGaussian((lo + hi) / 2.0, hi - lo), type, learnableRate);
+    public void createUniqueTitle(int lo, int hi, double learnableRate) throws IOException, SQLException{
+        createTitle((int) Utility.randGaussian((lo + hi) / 2.0, hi - lo), type, learnableRate);
     }
     
-    public void createPersonalTitle(int level, int officerType, double learnableRate) throws IOException, SQLException{
-        personalTitle = Title.getCreatedTitle(commonData, officerType, level, false, learnableRate);
-    }
-
-    @Override
-    public void randomBattleTitles(double noSpecProb) {
-        randomBattleTitles(noSpecProb, type);
+    public void createTitle(int level, int officerType, double learnableRate) throws IOException, SQLException{
+        title = Title.getCreatedTitle(commonData, officerType, level, learnableRate);
     }
 
     public void randomBattleTitles(double noSpecProb, int officerType) {
@@ -461,21 +456,6 @@ public class TypedOfficer extends Officer {
         Map<Integer, Integer> prob = new HashMap<Integer, Integer>();
         for (Map.Entry<Integer, int[]> i : battleTitleProb.entrySet()) {
             prob.put(i.getKey(), i.getValue()[officerType]);
-        }
-
-        if (rng.nextFloat() < noSpecProb) {
-            battleTitle = -1;
-        } else {
-            boolean ok;
-            int trials = 0;
-            do {
-                trials++;
-                battleTitle = Utility.randomCategorize(prob);
-                ok = testConds(battleTitleCond.get(battleTitle));
-            } while (!ok && trials < 1000);
-            if (!ok) {
-                battleTitle = -1;
-            }
         }
 
         //3x, 4x, 5x, 6x army type battle title adjust
@@ -497,19 +477,7 @@ public class TypedOfficer extends Officer {
                 maxType = i;
             }
         }
-        if (battleTitle / 10 == 30 || battleTitle / 10 == 32) {
-            battleTitle = battleTitle / 10 * 10 + maxType;
-        }
 
-    }
-    
-    @Override
-    public void createUniqueBattleTitle(int lo, int hi, double learnableRate) throws IOException, SQLException{
-        createBattleTitle((int) Utility.randGaussian((lo + hi) / 2.0, hi - lo), type, learnableRate);
-    }
-    
-    public void createBattleTitle(int level, int officerType, double learnableRate) throws IOException, SQLException{
-        battleTitle = Title.getCreatedTitle(commonData, officerType, level, true, learnableRate);
     }
 
     @Override

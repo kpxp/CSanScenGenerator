@@ -26,7 +26,7 @@ import javax.swing.table.TableModel;
 public class Frontend extends javax.swing.JFrame {
 
     public static final int MAX_OFFICER = 5000;
-    public static final String APP_NAME = "中華三國志劇本生成器(v3.3) by 耒戈氏";
+    public static final String APP_NAME = "中華三國志劇本生成器(v3.6) by 耒戈氏";
     public static final String SETTING_FILE_EXTENSION = "ORSET";
     final JFileChooser settingFileChooser, gamePathChooser;
     private String gamePath;
@@ -4478,10 +4478,10 @@ public class Frontend extends javax.swing.JFrame {
 
             o.specialFromParent(Integer.parseInt(childrenSkillBaseText.getText()), Integer.parseInt(childrenSkillVarText.getText()));
 
-            o.personalTitleFromParent(noSpecialProb, Integer.parseInt(childrenPersonalTitleText.getText()));
-
-            o.battleTitleFromParent(noSpecialProb, Integer.parseInt(childrenBattleTitleText.getText()));
-
+            if (!o.titleFromParent(noSpecialProb, Integer.parseInt(childrenPersonalTitleText.getText()))) {
+                o.createUniqueTitle(Integer.parseInt(generatedTitleLevelLoText.getText()), Integer.parseInt(generatedTitleLevelHiText.getText()), generatedTitleLearnableRateSlider.getValue()); 
+            }
+            
             o.stuntFromParent(Integer.parseInt(childrenStuntBaseText.getText()), Integer.parseInt(childrenStuntVarText.getText()));
         } else {
             o.randomPersonAttachment(Integer.parseInt(attachmentLoText.getText()), Integer.parseInt(attachmentHiText.getText()));
@@ -4495,24 +4495,15 @@ public class Frontend extends javax.swing.JFrame {
             o.randomSpecials(Double.parseDouble(specialProbText.getText()), Integer.parseInt(specialAbyThresholdText.getText()),
                     Double.parseDouble(specialAbyProbText.getText()));
 
-            o.randomPersonalTitles(noSpecialProb);
-            o.randomBattleTitles(noSpecialProb);
+            /*if (Utility.probTestPercentage(generatedTitleProbSlider.getValue())){
+                if (!Utility.probTestPercentage(noSpecialProb)){
+                    o.createUniqueTitle(Integer.parseInt(generatedTitleLevelLoText.getText()), Integer.parseInt(generatedTitleLevelHiText.getText()), generatedTitleLearnableRateSlider.getValue()); 
+                }
+            } else {
+                o.randomTitles(noSpecialProb);
+            }*/
             
-            if (Utility.probTestPercentage(generatedTitleProbSlider.getValue())){
-                if (!Utility.probTestPercentage(noSpecialProb)){
-                    o.createUniquePersonalTitle(Integer.parseInt(generatedTitleLevelLoText.getText()), Integer.parseInt(generatedTitleLevelHiText.getText()), generatedTitleLearnableRateSlider.getValue()); 
-                }
-            } else {
-                o.randomPersonalTitles(noSpecialProb);
-            }
-
-            if (Utility.probTestPercentage(generatedTitleProbSlider.getValue())){
-                if (!Utility.probTestPercentage(noSpecialProb)){
-                    o.createUniqueBattleTitle(Integer.parseInt(generatedTitleLevelLoText.getText()), Integer.parseInt(generatedTitleLevelHiText.getText()), generatedTitleLearnableRateSlider.getValue()); 
-                }
-            } else {
-                o.randomBattleTitles(noSpecialProb);
-            }
+            o.createUniqueTitle(Integer.parseInt(generatedTitleLevelLoText.getText()), Integer.parseInt(generatedTitleLevelHiText.getText()), generatedTitleLearnableRateSlider.getValue()); 
 
             o.randomStunts(Double.parseDouble(stuntProbText.getText()), Integer.parseInt(stuntAbyThresholdText.getText()),
                     Double.parseDouble(stuntAbyProbText.getText()));
@@ -4628,37 +4619,27 @@ public class Frontend extends javax.swing.JFrame {
             }
         }
         
-        o.randomPersonalTitles(noSpecialProb);
-        o.randomBattleTitles(noSpecialProb);
-        
+        /*
         if (strong){
             if (Utility.probTestPercentage(strongOfficerGeneratedTitleProbSlider.getValue())){
-                o.createUniquePersonalTitle(Integer.parseInt(strongOfficerGeneratedTitleLevelLoText.getText()), Integer.parseInt(strongOfficerGeneratedTitleLevelHiText.getText()), generatedTitleLearnableRateSlider.getValue()); 
+                o.createUniqueTitle(Integer.parseInt(strongOfficerGeneratedTitleLevelLoText.getText()), Integer.parseInt(strongOfficerGeneratedTitleLevelHiText.getText()), generatedTitleLearnableRateSlider.getValue()); 
             } else {
-                o.randomPersonalTitles(noSpecialProb);
+                o.randomTitles(noSpecialProb);
             }
         } else {
             if (Utility.probTestPercentage(generatedTitleProbSlider.getValue())){
-                o.createUniquePersonalTitle(Integer.parseInt(generatedTitleLevelLoText.getText()), Integer.parseInt(generatedTitleLevelHiText.getText()), generatedTitleLearnableRateSlider.getValue()); 
+                o.createUniqueTitle(Integer.parseInt(generatedTitleLevelLoText.getText()), Integer.parseInt(generatedTitleLevelHiText.getText()), generatedTitleLearnableRateSlider.getValue()); 
             } else {
-                o.randomPersonalTitles(noSpecialProb);
+                o.randomTitles(noSpecialProb);
             }
-        }
+        }*/
         
         if (strong) {
-            if (Utility.probTestPercentage(strongOfficerGeneratedTitleProbSlider.getValue())){
-                o.createUniqueBattleTitle(Integer.parseInt(strongOfficerGeneratedTitleLevelLoText.getText()), Integer.parseInt(strongOfficerGeneratedTitleLevelHiText.getText()), generatedTitleLearnableRateSlider.getValue());
-            } else {
-                o.randomBattleTitles(noSpecialProb);
-            }
+            o.createUniqueTitle(Integer.parseInt(strongOfficerGeneratedTitleLevelLoText.getText()), Integer.parseInt(strongOfficerGeneratedTitleLevelHiText.getText()), generatedTitleLearnableRateSlider.getValue()); 
         } else {
-            if (Utility.probTestPercentage(generatedTitleProbSlider.getValue())){
-                o.createUniqueBattleTitle(Integer.parseInt(generatedTitleLevelLoText.getText()), Integer.parseInt(generatedTitleLevelHiText.getText()), generatedTitleLearnableRateSlider.getValue());
-            } else {
-                o.randomBattleTitles(noSpecialProb);
-            }
+            o.createUniqueTitle(Integer.parseInt(generatedTitleLevelLoText.getText()), Integer.parseInt(generatedTitleLevelHiText.getText()), generatedTitleLearnableRateSlider.getValue()); 
         }
-        
+
         o.randomStunts(strong ? Double.parseDouble(strongOfficerStuntProbText.getText()) : Double.parseDouble(stuntProbText.getText()),
                 Integer.parseInt(stuntAbyThresholdText.getText()), Double.parseDouble(stuntAbyProbText.getText()));
 
@@ -4744,7 +4725,7 @@ public class Frontend extends javax.swing.JFrame {
         }
         
         //clear conditions
-        Statement s = null;
+        /*Statement s = null;
         try {
             s = scenConn.createStatement();
             s.executeUpdate("delete from Condition where ID >= 20000");
@@ -4752,7 +4733,7 @@ public class Frontend extends javax.swing.JFrame {
             if (s != null){
                 s.close();
             }
-        }
+        }*/
 
         //choose kings and colors
         int factionNo = Utility.randBetween(Integer.parseInt(factionCntLoText.getText()), Integer.parseInt(factionCntHiText.getText()));

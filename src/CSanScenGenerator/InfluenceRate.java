@@ -108,27 +108,14 @@ public class InfluenceRate {
     }
 
     private static Map<Integer, Map<Integer, Integer>> titleRates = new HashMap<Integer, Map<Integer, Integer>>();
-    private static Map<Integer, Map<Integer, Integer>> battleRates = new HashMap<Integer, Map<Integer, Integer>>();
-    public static Map<Integer, Integer> getTitleRates(Connection cdData, int type, boolean battleOnly) throws IOException, SQLException {
-        if (battleOnly){
-            if (!battleRates.containsKey(type)){
-                battleRates.put(type, new HashMap<Integer, Integer>());
-                for (InfluenceRate i : getInfluenceRates(cdData).values()) {
-                    if (i.isBattle) {
-                        battleRates.get(type).put(i.id, i.titleRate[type]);
-                    }
-                }
+    public static Map<Integer, Integer> getTitleRates(Connection cdData, int type) throws IOException, SQLException {
+        if (!titleRates.containsKey(type)){
+            titleRates.put(type, new HashMap<Integer, Integer>());
+            for (InfluenceRate i : getInfluenceRates(cdData).values()) {
+                titleRates.get(type).put(i.id, i.titleRate[type]);
             }
-            return battleRates.get(type);
-        } else {
-            if (!titleRates.containsKey(type)){
-                titleRates.put(type, new HashMap<Integer, Integer>());
-                for (InfluenceRate i : getInfluenceRates(cdData).values()) {
-                    titleRates.get(type).put(i.id, i.titleRate[type]);
-                }
-            }
-            return titleRates.get(type);
         }
+        return titleRates.get(type);
     }
 
     public static boolean isBattle(Connection cdData, int influenceId) throws IOException, SQLException {
